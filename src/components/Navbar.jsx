@@ -1,10 +1,16 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Navbar = () => {
+    const { user } = useContext(AuthContext);
+
     const links = <>
-        <NavLink to="/"><li><a className="hover:bg-transparent hover:text-[#FF444A]">Home</a></li></NavLink>
-        <NavLink to="/login"><li><a className="hover:bg-transparent hover:text-[#FF444A]">Login</a></li></NavLink>
-        <NavLink to="/register"><li><a className="hover:bg-transparent hover:text-[#FF444A]">Register</a></li></NavLink>
+        <NavLink to="/"><li className="hover:bg-transparent hover:text-[#FF444A] px-2">Home</li></NavLink>
+        {user && <NavLink to="/profile"><li className="hover:bg-transparent hover:text-[#FF444A] px-2">Profile</li></NavLink>}
+        <NavLink to="/cart"><li className="hover:bg-transparent hover:text-[#FF444A] px-2">Cart</li></NavLink>
+        {user ? "" : <NavLink to="/login"><li className="hover:bg-transparent hover:text-[#FF444A] px-2">Login</li></NavLink>}
+        {user ? "" : <NavLink to="/register"><li className="hover:bg-transparent hover:text-[#FF444A] px-2">Register</li></NavLink>}
     </>
 
     return (

@@ -1,11 +1,25 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Login = () => {
+    const { logInUser } = useContext(AuthContext);
+
+    const navigate = useNavigate();
+
     const handleLogin = (event) => {
         event.preventDefault();
         const email = event.target.email.value;
         const pass = event.target.password.value;
-        console.log(email, pass);
+
+        // login user
+        logInUser(email, pass)
+            .then(res => {
+                console.log(res.user);
+                event.target.reset();
+                navigate("/");
+            })
+            .catch(err => console.error(err.message));
     }
 
     return (
@@ -34,7 +48,7 @@ const Login = () => {
                         <div className="form-control mt-6">
                             <button className="btn btn-primary normal-case">Login</button>
                         </div>
-                        <p>New here? <Link to="/register"><a className="underline">Register</a></Link></p>
+                        <p>New here? <Link to="/register" className="underline">Register</Link></p>
                     </form>
                 </div>
             </div>
